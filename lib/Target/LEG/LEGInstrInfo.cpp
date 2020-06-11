@@ -205,35 +205,35 @@ bool LEGInstrInfo::expandPostRAPseudo(MachineBasicBlock::iterator MI) const
   {
   default:
     return false;
-  case LEG::MOVi32: {
-    DebugLoc DL = MI->getDebugLoc();
-    MachineBasicBlock &MBB = *MI->getParent();
+  // case LEG::MOVi32: {
+  //   DebugLoc DL = MI->getDebugLoc();
+  //   MachineBasicBlock &MBB = *MI->getParent();
 
-    const unsigned DstReg = MI->getOperand(0).getReg();
-    const bool DstIsDead = MI->getOperand(0).isDead();
+  //   const unsigned DstReg = MI->getOperand(0).getReg();
+  //   const bool DstIsDead = MI->getOperand(0).isDead();
 
-    const MachineOperand &MO = MI->getOperand(1);
+  //   const MachineOperand &MO = MI->getOperand(1);
 
-    auto LO16 = BuildMI(MBB, MI, DL, get(LEG::MOVLOi16), DstReg);
-    auto HI16 = BuildMI(MBB, MI, DL, get(LEG::MOVHIi16))
-                    .addReg(DstReg, RegState::Define | getDeadRegState(DstIsDead))
-                    .addReg(DstReg);
+  //   auto LO16 = BuildMI(MBB, MI, DL, get(LEG::MOVLOi16), DstReg);
+  //   auto HI16 = BuildMI(MBB, MI, DL, get(LEG::MOVHIi16))
+  //                   .addReg(DstReg, RegState::Define | getDeadRegState(DstIsDead))
+  //                   .addReg(DstReg);
 
-    if (MO.isImm()) {
-      const unsigned Imm = MO.getImm();
-      const unsigned Lo16 = Imm & 0xffff;
-      const unsigned Hi16 = (Imm >> 16) & 0xffff;
-      LO16 = LO16.addImm(Lo16);
-      HI16 = HI16.addImm(Hi16);
-    } else {
-      const GlobalValue *GV = MO.getGlobal();
-      const unsigned TF = MO.getTargetFlags();
-      LO16 = LO16.addGlobalAddress(GV, MO.getOffset(), TF | LEGII::MO_LO16);
-      HI16 = HI16.addGlobalAddress(GV, MO.getOffset(), TF | LEGII::MO_HI16);
-    }
+  //   if (MO.isImm()) {
+  //     const unsigned Imm = MO.getImm();
+  //     const unsigned Lo16 = Imm & 0xffff;
+  //     const unsigned Hi16 = (Imm >> 16) & 0xffff;
+  //     LO16 = LO16.addImm(Lo16);
+  //     HI16 = HI16.addImm(Hi16);
+  //   } else {
+  //     const GlobalValue *GV = MO.getGlobal();
+  //     const unsigned TF = MO.getTargetFlags();
+  //     LO16 = LO16.addGlobalAddress(GV, MO.getOffset(), TF | LEGII::MO_LO16);
+  //     HI16 = HI16.addGlobalAddress(GV, MO.getOffset(), TF | LEGII::MO_HI16);
+  //   }
 
-    MBB.erase(MI);
-    return true;
-  }
+  //   MBB.erase(MI);
+  //   return true;
+  // }
   }
 }

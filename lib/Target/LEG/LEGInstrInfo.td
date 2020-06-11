@@ -160,9 +160,9 @@ def MOVLOi16 : MOV<0b1000, "mov_l", (ins i32imm:$imm),
 def MOVHIi16 : MOV<0b1010, "mov_h", (ins GRRegs:$src1, i32imm:$imm),
                   [/* No Pattern */]>;
 
-def MOVi32 : InstLEG<(outs GRRegs:$dst), (ins i32imm:$src), "",
+def MOVi32 : InstLEG<(outs GRRegs:$dst), (ins i32imm:$src), "set $dst, $src",
                      [(set i32:$dst, (movei32 imm:$src))]> {
-  let isPseudo = 1;
+  // let isPseudo = 1;
 }
 
 //===----------------------------------------------------------------------===//
