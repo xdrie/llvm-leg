@@ -238,7 +238,7 @@ let isTerminator = 1, isReturn = 1, isBarrier = 1, Uses = [LR] in {
 
 let isCall = 1, Defs = [LR], Uses = [SP] in {
   def BL : BranchInst<0b1011, (outs), (ins GRRegs:$addr),
-                      "brl $addr",
+                      "cal $addr",
                       [(leg_call i32:$addr)]> {
     bits<4> addr;
     let Inst{31-28} = 0b1110;
@@ -264,7 +264,7 @@ let isTerminator = 1, isBranch = 1, isBarrier = 1 in {
 
 let isTerminator = 1, isBranch = 1, Uses = [CPSR] in {
   def Bcc : InstLEG<(outs), (ins cc_val:$cc, b_target:$dst),
-                    "b$cc $dst",  []> {
+                    "b_$cc ::$dst",  []> {
   }
 }
 
