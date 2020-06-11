@@ -189,7 +189,7 @@ def CMP : InstLEG<(outs), (ins GRRegs:$lhs, GRRegs:$rhs),
 //===----------------------------------------------------------------------===//
 
 def LDR  : InstLEG<(outs GRRegs:$val), (ins memsrc:$addr),
-                   "ldr $val, $addr",
+                   "ldw $val, $addr",
                    [(set i32:$val, (load addr:$addr))]> {
   bits<4> val;
   bits<16> addr;
@@ -205,7 +205,7 @@ def LDR  : InstLEG<(outs GRRegs:$val), (ins memsrc:$addr),
 }
 
 def STR : InstLEG<(outs), (ins GRRegs:$val, memsrc:$addr),
-                  "str $val, $addr",
+                  "stw $val, $addr",
                   [(store i32:$val, addr:$addr)]> {
   bits<16> addr;
   bits<4> val;
@@ -226,7 +226,7 @@ def STR : InstLEG<(outs), (ins GRRegs:$val, memsrc:$addr),
 
 let isTerminator = 1, isReturn = 1, isBarrier = 1, Uses = [LR] in {
   def RET : InstLEG<(outs), (ins variable_ops),
-                    "bx lr",  [(LEGRetFlag)]> {
+                    "brx lr",  [(LEGRetFlag)]> {
     let Inst{27-0}  = 0b0001001011111111111100011110;
   }
 }
@@ -238,7 +238,7 @@ let isTerminator = 1, isReturn = 1, isBarrier = 1, Uses = [LR] in {
 
 let isCall = 1, Defs = [LR], Uses = [SP] in {
   def BL : BranchInst<0b1011, (outs), (ins GRRegs:$addr),
-                      "bl $addr",
+                      "brl $addr",
                       [(leg_call i32:$addr)]> {
     bits<4> addr;
     let Inst{31-28} = 0b1110;

@@ -126,6 +126,8 @@ void LEGInstPrinter::printAddrModeMemSrc(const MCInst *MI, unsigned OpNum,
   unsigned Offset = Op2.getImm();
   if (Offset) {
     O << ", ." << Offset;
+  } else {
+    O << ", .0";
   }
   // O << "]";
 }
