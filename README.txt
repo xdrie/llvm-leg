@@ -20,14 +20,14 @@ The LEG repositories (llvm-leg, clang-leg) both track tip, and aren't tied to an
 Tried & tested build systems:
 *  CMake
 Tried & tested compilers:
-*  gcc 4.9.1
+*  gcc 4.9.1 (confirmed 2020-06)
 *  clang 3.5
 
 Building with in-tree clang (optional)
 --------------------------------------
 
     cd llvm-leg
-    git clone git@github.com:codeplaysoftware/clang-leg.git tools/clang
+    git clone https://github.com/xdrie/clang-leg.git tools/clang
 
 Building with make
 ------------------
