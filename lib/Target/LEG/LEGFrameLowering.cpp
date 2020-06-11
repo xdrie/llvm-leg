@@ -69,17 +69,20 @@ static unsigned materializeOffset(MachineFunction &MF, MachineBasicBlock &MBB,
     // The stack offset does not fit in the ADD/SUB instruction.
     // Materialize the offset using MOVLO/MOVHI.
     unsigned OffsetReg = LEG::R4;
-    unsigned OffsetLo = (unsigned)(Offset & 0xffff);
-    unsigned OffsetHi = (unsigned)((Offset & 0xffff0000) >> 16);
-    BuildMI(MBB, MBBI, dl, TII.get(LEG::MOVLOi16), OffsetReg)
-        .addImm(OffsetLo)
-        .setMIFlag(MachineInstr::FrameSetup);
-    if (OffsetHi) {
-      BuildMI(MBB, MBBI, dl, TII.get(LEG::MOVHIi16), OffsetReg)
-          .addReg(OffsetReg)
-          .addImm(OffsetHi)
-          .setMIFlag(MachineInstr::FrameSetup);
-    }
+    BuildMI(MBB, MBBI, dl, TII.get(LEG::MOVi32), OffsetReg)
+      .addImm(Offset)
+      .setMIFlag(MachineInstr::FrameSetup);
+    // unsigned OffsetLo = (unsigned)(Offset & 0xffff);
+    // unsigned OffsetHi = (unsigned)((Offset & 0xffff0000) >> 16);
+    // BuildMI(MBB, MBBI, dl, TII.get(LEG::MOVLOi16), OffsetReg)
+    //     .addImm(OffsetLo)
+    //     .setMIFlag(MachineInstr::FrameSetup);
+    // if (OffsetHi) {
+    //   BuildMI(MBB, MBBI, dl, TII.get(LEG::MOVHIi16), OffsetReg)
+    //       .addReg(OffsetReg)
+    //       .addImm(OffsetHi)
+    //       .setMIFlag(MachineInstr::FrameSetup);
+    // }
     return OffsetReg;
   }
 }

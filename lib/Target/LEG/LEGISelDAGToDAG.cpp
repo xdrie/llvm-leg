@@ -78,21 +78,26 @@ SDNode *LEGDAGToDAGISel::SelectMoveImmediate(SDNode *N) {
     return SelectCode(N);
   }
 
-  // Select the low part of the immediate move.
-  uint64_t LoMask = 0xffff;
-  uint64_t HiMask = 0xffff0000;
-  uint64_t ImmLo = (ImmVal & LoMask);
-  uint64_t ImmHi = (ImmVal & HiMask);
-  SDValue ConstLo = CurDAG->getTargetConstant(ImmLo, N, MVT::i32);
+  uint64_t Imm32 = ImmVal;
+  SDValue Const32 = CurDAG->getTargetConstant(Imm32, N, MVT::i32);
   MachineSDNode *Move =
-      CurDAG->getMachineNode(LEG::MOVLOi16, N, MVT::i32, ConstLo);
+      CurDAG->getMachineNode(LEG::MOVi32, N, MVT::i32, Const32);
 
-  // Select the low part of the immediate move, if needed.
-  if (ImmHi) {
-    SDValue ConstHi = CurDAG->getTargetConstant(ImmHi >> 16, N, MVT::i32);
-    Move = CurDAG->getMachineNode(LEG::MOVHIi16, N, MVT::i32, SDValue(Move, 0),
-                                  ConstHi);
-  }
+  // // Select the low part of the immediate move.
+  // uint64_t LoMask = 0xffff;
+  // uint64_t HiMask = 0xffff0000;
+  // uint64_t ImmLo = (ImmVal & LoMask);
+  // uint64_t ImmHi = (ImmVal & HiMask);
+  // SDValue ConstLo = CurDAG->getTargetConstant(ImmLo, N, MVT::i32);
+  // MachineSDNode *Move =
+  //     CurDAG->getMachineNode(LEG::MOVLOi16, N, MVT::i32, ConstLo);
+
+  // // Select the low part of the immediate move, if needed.
+  // if (ImmHi) {
+  //   SDValue ConstHi = CurDAG->getTargetConstant(ImmHi >> 16, N, MVT::i32);
+  //   Move = CurDAG->getMachineNode(LEG::MOVHIi16, N, MVT::i32, SDValue(Move, 0),
+  //                                 ConstHi);
+  // }
 
   return Move;
 }
