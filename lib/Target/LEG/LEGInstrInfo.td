@@ -155,9 +155,9 @@ class MOV<bits<4> opcode, string opstr, dag ins, list<dag>pattern>
   let Inst{25} = 1;
 }
 
-def MOVLOi16 : MOV<0b1000, "movw", (ins i32imm:$imm),
+def MOVLOi16 : MOV<0b1000, "mov_l", (ins i32imm:$imm),
                   [(set i32:$dst, i32imm_lo:$imm)]>;
-def MOVHIi16 : MOV<0b1010, "movt", (ins GRRegs:$src1, i32imm:$imm),
+def MOVHIi16 : MOV<0b1010, "mov_h", (ins GRRegs:$src1, i32imm:$imm),
                   [/* No Pattern */]>;
 
 def MOVi32 : InstLEG<(outs GRRegs:$dst), (ins i32imm:$src), "",
