@@ -254,7 +254,7 @@ def : Pattern<(i32 (load_sym tglobaladdr:$addr)),  [(MOVi32 $addr)]>;
 
 let isTerminator = 1, isBranch = 1, isBarrier = 1 in {
   def B : InstLEG<(outs), (ins b_target:$dst),
-                  "b $dst", [(br bb:$dst)]> {
+                  "b_to ::$dst", [(br bb:$dst)]> {
     bits<24> dst;
     let Inst{31-28} = 0b0000;
     let Inst{27-24} = 0b1010;
