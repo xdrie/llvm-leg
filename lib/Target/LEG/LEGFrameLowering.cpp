@@ -152,3 +152,20 @@ void LEGFrameLowering::eliminateCallFramePseudoInstr(
   }
   return;
 }
+
+// based on https://github.com/sifive/riscv-llvm/blob/5cedc3304c6118bcf6388c7e8235e422aa1e2de0/llvm/lib/Target/RISCV/RISCVFrameLowering.cpp#L225
+void LEGFrameLowering::determineCalleeSaves(MachineFunction &MF, BitVector &SavedRegs,
+                                    RegScavenger *RS = nullptr) const {
+  TargetFrameLowering::determineCalleeSaves(MF, SavedRegs, RS);
+
+  // if there are calls...
+  // then save the caller-saved registers
+  const MachineFrameInfo *MFI = MF.getFrameInfo();
+
+  // SavedRegs.set(LEG::LR);
+
+  if (MFI->hasCalls()) {
+    // save the return address register
+    SavedRegs.set(LEG::LR);
+  }
+}

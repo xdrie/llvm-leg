@@ -43,10 +43,7 @@ LEGRegisterInfo::LEGRegisterInfo() : LEGGenRegisterInfo(LEG::LR) {}
 
 const uint16_t *
 LEGRegisterInfo::getCalleeSavedRegs(const MachineFunction *MF) const {
-  static const uint16_t CalleeSavedRegs[] = { LEG::R4, LEG::R5, LEG::R6,
-                                              LEG::R7, LEG::R8, LEG::R9,
-                                              0 };
-  return CalleeSavedRegs;
+  return CC_Save_SaveList;
 }
 
 BitVector LEGRegisterInfo::getReservedRegs(const MachineFunction &MF) const {
