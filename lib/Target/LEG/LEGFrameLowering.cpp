@@ -158,14 +158,14 @@ void LEGFrameLowering::determineCalleeSaves(MachineFunction &MF, BitVector &Save
                                     RegScavenger *RS = nullptr) const {
   TargetFrameLowering::determineCalleeSaves(MF, SavedRegs, RS);
 
-  // if there are calls...
-  // then save the caller-saved registers
   const MachineFrameInfo *MFI = MF.getFrameInfo();
 
-  // SavedRegs.set(LEG::LR);
+  // if there are calls, save the caller-saved registers
 
   if (MFI->hasCalls()) {
     // save the return address register
     SavedRegs.set(LEG::LR);
+  } else {
+    SavedRegs.reset(LEG::LR);
   }
 }
