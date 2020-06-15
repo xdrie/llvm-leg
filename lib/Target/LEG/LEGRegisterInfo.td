@@ -33,9 +33,15 @@ def LR  : LEGReg<14, "lr">;
 
 def CPSR  : LEGReg<16, "cpsr">;
 
-// Register classes.
-//
+//===----------------------------------------------------------------------===//
+//@Register Classes
+//===----------------------------------------------------------------------===//
+
+// Special-Frame regs
+def SpecFrameRegs : RegisterClass<"LEG", [i32], 32,
+  (add LR)>;
+
+// Return values and arguments
 def GRRegs : RegisterClass<"LEG", [i32], 32,
-  // Return values and arguments
   (add R0, R1, R2, R3,
        R4, R5, R6, R7, R8, R9, SP)>;
